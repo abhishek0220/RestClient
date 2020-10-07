@@ -117,8 +117,13 @@
               "devServerTarget": "RestClient:serve:production"
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {}
         }
       }
-    }},
+    }
+  },
   "defaultProject": "RestClient"
 }

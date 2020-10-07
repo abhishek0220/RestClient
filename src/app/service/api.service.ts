@@ -9,7 +9,7 @@ import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http
 export class ApiService {
 
   constructor(private http: HttpClient) { }
-  gets(uri:string) {
+  getReq(uri:string) {
     return this.http.get(`${uri}`);
   }
 }

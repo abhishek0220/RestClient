@@ -1,5 +1,12 @@
 <form action="">
   <input type="text" value="" placeholder="http://www.sample.com" style="width: 70%;" #uri>
+  <select #reqType>
+    <option value="GET">GET</option>
+    <option value="POST">POST</option>
+    <option value="DELETE">DELETE</option>
+  </select>
 </form>
-<button (click)="getReq(uri.value)">Get Request</button>
-<p>{{res}}</p>
+<button (click)="getCall(uri.value, reqType.value )">Request</button>
+<div style="height:200px; overflow: scroll; border-style: double ;border-color: black;">
+  <p>{{res}}</p>
+</div>

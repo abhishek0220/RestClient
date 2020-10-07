@@ -11,9 +11,9 @@ export class AppComponent {
   constructor(private apiService: ApiService) {}
 
   ngOnInit() {}
-  getReq(uri){
-    console.log(uri);
-    this.apiService.gets(uri).subscribe((data) => {
+  getCall(uri, type){
+    console.log(uri, type);
+    this.apiService.getReq(uri).subscribe((data) => {
      this.res = JSON.stringify(data) ;
      console.log(data)
     })    
