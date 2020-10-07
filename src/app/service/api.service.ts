@@ -12,4 +12,7 @@ export class ApiService {
   getReq(uri:string) {
     return this.http.get(`${uri}`);
   }
+  postReq(uri, data, header) {
+    return this.http.post(uri, data, {headers : header});
+  }
 }

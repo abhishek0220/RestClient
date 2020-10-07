@@ -1,12 +1,33 @@
-<form action="">
-  <input type="text" value="" placeholder="http://www.sample.com" style="width: 70%;" #uri>
-  <select #reqType>
-    <option value="GET">GET</option>
-    <option value="POST">POST</option>
-    <option value="DELETE">DELETE</option>
-  </select>
-</form>
-<button (click)="getCall(uri.value, reqType.value )">Request</button>
-<div style="height:200px; overflow: scroll; border-style: double ;border-color: black;">
-  <p>{{res}}</p>
+<div class="container">
+  <form action="">
+    <input type="text" value="" placeholder="http://www.sample.com" style="width:100%" #uri>
+    <mat-select [(value)]=reqType>
+      <mat-option value="GET">GET</mat-option>
+      <mat-option value="POST">POST</mat-option>
+      <mat-option value="DELETE">DELETE</mat-option>
+    </mat-select>
+    <input type="text" value="" placeholder="Attribute Name" style="width:40%; margin-right: 20px;" #headerName>
+    <input type="text" value="" placeholder="Attribute Value" style="width:40%; margin-right: 20px;" #headerValue>
+    <button (click)="addHeader(headerName.value,headerValue.value);headerName.value='';headerValue.value=''" >Add Header</button>
+    <div class="row" *ngFor="let singleHeader of header; index as i" style="margin-bottom:1px;">
+      <div class="col s5 header">
+        {{singleHeader[0]}}
+      </div>
+      <div class="col s5 header">
+        {{singleHeader[1]}}
+      </div>
+      <div class="col s2">
+        <button (click)="deleteHeader(i)" >Remove</button>
+      </div>
+    </div>
+      
+    Body:<br>
+    <textarea style="width: 100%; height: 100px; overflow: auto;" #data></textarea>
+  </form>
+  <button (click)="callReq(uri.value, data.value)">Request</button>
+  <hr>
+  Responses:
+  <div style="height:200px; overflow: auto; border-style: double ;border-color: black;">
+    <p>{{res}}</p>
+  </div>
 </div>
