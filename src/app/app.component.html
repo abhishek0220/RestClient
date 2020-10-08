@@ -6,9 +6,33 @@
       <mat-option value="POST">POST</mat-option>
       <mat-option value="DELETE">DELETE</mat-option>
     </mat-select>
-    <input type="text" value="" placeholder="Attribute Name" style="width:40%; margin-right: 20px;" #headerName>
-    <input type="text" value="" placeholder="Attribute Value" style="width:40%; margin-right: 20px;" #headerValue>
-    <button (click)="addHeader(headerName.value,headerValue.value);headerName.value='';headerValue.value=''" >Add Header</button>
+      <div class="row">
+        <div class="col s5">
+          <input type="text" value="" placeholder="Attribute Name" matInput
+            [formControl]="headerName"
+            [matAutocomplete]="autoheaderName"
+          >
+          <mat-autocomplete #autoheaderName="matAutocomplete">
+            <mat-option *ngFor="let option of headerNamefilteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </div>
+        <div class="col s5">
+          <input type="text" value="" placeholder="Attribute Value" matInput
+            [formControl]="headerValue"
+            [matAutocomplete]="autoheaderValue"
+          >
+          <mat-autocomplete #autoheaderValue="matAutocomplete">
+            <mat-option *ngFor="let option of headerValuefilteredOptions | async" [value]="option">
+              {{option}}
+            </mat-option>
+          </mat-autocomplete>
+        </div>
+      </div>
+      
+    
+    <button (click)="addHeader();" >Add Header</button>
     <div class="row" *ngFor="let singleHeader of header; index as i" style="margin-bottom:1px;">
       <div class="col s5 header">
         {{singleHeader[0]}}
