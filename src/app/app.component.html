@@ -1,6 +1,6 @@
 <div class="container">
   <form action="">
-    <input type="text" value="" placeholder="http://www.sample.com" style="width:100%" #uri>
+    <input type="text" value="https://todo.iamabhishek.co/api/todo" placeholder="http://www.sample.com" style="width:100%" #uri>
     <mat-select [(value)]=reqType>
       <mat-option value="GET">GET</mat-option>
       <mat-option value="POST">POST</mat-option>
@@ -48,6 +48,8 @@
     Body:<br>
     <textarea style="width: 100%; height: 100px; overflow: auto;" #data></textarea>
   </form>
+  <mat-slide-toggle [(ngModel)]="isCORS">Favourite</mat-slide-toggle>
+  <br>
   <button (click)="callReq(uri.value, data.value)">Request</button>
   <hr>
   Responses:

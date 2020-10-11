@@ -14,6 +14,7 @@ export class AppComponent{
   header:any = [['Content-Type','application/json']];
   //headerName : string;
   reqType = "GET";
+  isCORS = false;
 
   headerName = new FormControl();
   headerNameOptions: string[] = [];
@@ -56,28 +57,30 @@ export class AppComponent{
     const filterValue = value.toLowerCase();
     return arr.filter(option => option.toLowerCase().includes(filterValue));
   }
-
   async callReq(uri, data){
+    this.res = "";
     var type = this.reqType; 
-    console.log(uri, type, data);
-    if(type == "GET"){
-      this.apiService.getReq(uri).subscribe((data) => {
-        this.res = JSON.stringify(data) ;
-        console.log(data)
+    console.log(uri, type, data, this.isCORS);
+    var headers  = {};
+    for(var i=0; i<this.header.length; i++){
+      headers[this.header[i][0]] = this.header[i][1];
+    }
+    console.log(headers);
+    if(this.isCORS){
+      this.apiService.coverAPI(uri,type, data, headers).subscribe((data) =>{
+        this.res = atob(data['body'])
+      })
+    }
+    else if(type == "GET"){
+      this.apiService.getReq(uri, headers).subscribe( (data) => {
+        this.res = JSON.stringify(data.body);
        })  
     }
     else if(type=="POST"){
-      var headers  = {};
-      for(var i=0; i<this.header.length; i++){
-        headers[this.header[i][0]] = this.header[i][1];
-      }
-      console.log(headers);
       this.apiService.postReq(uri, data, headers ).subscribe((data) => {
         this.res = JSON.stringify(data) ;
-        console.log(data)
        })  
-    }
-      
+    } 
   }
   deleteHeader(id:number){
     this.header.splice(id,1);
