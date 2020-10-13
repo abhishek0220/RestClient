@@ -68,6 +68,7 @@
       </button>
     </div>
   </div>
+  <mat-spinner *ngIf="keep_run"></mat-spinner>
   <div style="min-height: 400px;">
     <mat-tab-group>
       <mat-tab label="Headers">
@@ -98,7 +99,6 @@
           <ngx-codemirror [(ngModel)]="res_beautified" [options]="res_type" style="margin:20px">
           </ngx-codemirror>
         </ng-template>
-          
       </mat-tab>
     </mat-tab-group>
   </div>

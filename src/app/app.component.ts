@@ -33,6 +33,7 @@ export class AppComponent{
   reqType = "GET";
   isCORS = false;
   body_dat : any;
+  keep_run = false;
 
   headerName = new FormControl();
   headerNameOptions: string[] = [];
@@ -102,6 +103,7 @@ export class AppComponent{
     for(var i=0; i<this.header.length; i++){
       headers[this.header[i][0]] = this.header[i][1];
     }
+    this.keep_run = true;
     if(this.isCORS){
       this.apiService.coverAPI(uri,type, data, headers).subscribe((data) =>{
         var type = "plain";
@@ -112,7 +114,12 @@ export class AppComponent{
           }
         }
         this.display(atob(data['body']), type.toLowerCase(), data['headers'])
+      },
+       err =>{
+        this.keep_run = false;
+        this.header_beautified = "Invalid Address";
       })
+
     }
     else if(type == "GET"){
       this.apiService.getReq(uri, headers).subscribe( (data) => {
@@ -125,8 +132,25 @@ export class AppComponent{
           this.display(data.body.toString(), dat_type, this.getHeadOBJ(data.headers, scode))
        },
        err =>{
+        this.keep_run = false;
         console.log(err)
-        this.res = err.error;
+        this.header_beautified = "Make sure address is correct and CORS available";
+       })  
+    }
+    else if(type == "DELETE"){
+      this.apiService.deleteReq(uri, headers).subscribe( (data) => {
+        var dat_type = data.headers.get('Content-type').split(";")[0] || "text/plain"
+        dat_type = dat_type.toLowerCase();
+        var scode = data.status + " " + data.statusText;
+        if(dat_type == "application/json")
+          this.display(JSON.stringify(data.body),dat_type, this.getHeadOBJ(data.headers, scode));
+        else
+          this.display(data.body.toString(), dat_type, this.getHeadOBJ(data.headers, scode))
+       },
+       err =>{
+        this.keep_run = false;
+        console.log(err)
+        this.header_beautified = "Make sure address is correct and CORS available";
        })  
     }
     else if(type=="POST"){
@@ -140,10 +164,31 @@ export class AppComponent{
           this.display(data.body.toString(), dat_type, this.getHeadOBJ(data.headers, scode))
        },
        err =>{
+        this.keep_run = false;
         console.log(err)
-        this.res = err.error;
+        this.header_beautified = "Make sure address is correct and CORS available";
+      })  
+    }
+    else if(type=="PUT"){
+      this.apiService.putReq(uri, data, headers ).subscribe((data) => {
+        var dat_type = data.headers.get('content-type').split(";")[0] || "text/plain"
+        dat_type = dat_type.toLowerCase();
+        var scode = data.status + " " + data.statusText;
+        if(dat_type == "application/json")
+          this.display(JSON.stringify(data.body),dat_type, this.getHeadOBJ(data.headers, scode));
+        else
+          this.display(data.body.toString(), dat_type, this.getHeadOBJ(data.headers, scode))
+       },
+       err =>{
+        this.keep_run = false;
+        console.log(err)
+        this.header_beautified = "Make sure address is correct and CORS available";
       })  
     } 
+    else{
+      this.keep_run = false;
+    }
+    
   }
   display(data : string, dat_type : string, headers){
     this.res = data;
@@ -157,6 +202,7 @@ export class AppComponent{
       this.res_beautified = data;
     }
     this.header_beautified = `${JSON.stringify(headers, null, 4)}`;
+    this.keep_run = false;
   }
   getHeadOBJ(headers, status){
     var all_header = headers.keys()

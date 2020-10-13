@@ -14,7 +14,6 @@ export class ApiService {
   getReq(uri:string, header) {
     return this.http.get(`${uri}`, {headers : header, observe: 'response'});
   }
-  
   postReq(uri, data, header) {
     return this.http.post(uri, data, {headers : header, observe: 'response'});
   }
