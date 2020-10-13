@@ -96,6 +96,16 @@ export class AppComponent{
         this.res = JSON.stringify(data) ;
        })  
     } 
+    else if(type == "DELETE"){
+      this.apiService.deleteReq(uri, headers).subscribe( (data) => {
+        this.res = JSON.stringify(data.body);
+       })
+    }
+    else if(type=="PUT"){
+      this.apiService.putReq(uri, data, headers ).subscribe((data) => {
+        this.res = JSON.stringify(data) ;
+       })  
+    } 
   }
   deleteHeader(id:number){
     this.header.splice(id,1);
