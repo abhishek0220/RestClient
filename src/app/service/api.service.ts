@@ -18,6 +18,12 @@ export class ApiService {
   postReq(uri, data, header) {
     return this.http.post(uri, data, {headers : header, observe: 'response'});
   }
+  deleteReq(uri:string, header) {
+    return this.http.delete(`${uri}`, {headers : header, observe: 'response'});
+  }
+  putReq(uri, data, header) {
+    return this.http.put(uri, data, {headers : header, observe: 'response'});
+  }
   coverAPI(uri:string, method:string, data="", header={}){
     if(method.toUpperCase() == "GET") data ="";
     var body = {
