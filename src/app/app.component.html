@@ -9,6 +9,8 @@
         <mat-select color="accent" [(value)]=reqType>
           <mat-option value="GET">GET</mat-option>
           <mat-option value="POST">POST</mat-option>
+          <mat-option value="POST">PUT</mat-option>
+          <mat-option value="POST">HEAD</mat-option>
           <mat-option value="DELETE">DELETE</mat-option>
         </mat-select>
       </mat-form-field>
@@ -42,20 +44,24 @@
         </button>
       </div>
     </div>
-    <div class="row" style="margin-bottom:1px;">
-      <mat-card class="col" style="margin-right: 10px;" *ngFor="let singleHeader of header; index as i">
-        {{singleHeader[0]}} : {{singleHeader[1]}}
-        <mat-icon class="right hover-cursor" (click)="deleteHeader(i)">delete</mat-icon>
-      </mat-card>
+    <div class="row" style="margin-bottom:25px;">
+      <div class="col" *ngFor="let singleHeader of header; index as i" style="padding:2px;">
+        <mat-card style="padding: 6px;">
+          {{singleHeader[0]}} : {{singleHeader[1]}}
+          <mat-icon class="right hover-cursor" (click)="deleteHeader(i)">delete</mat-icon>
+        </mat-card>
+      </div>
     </div>
-    Body:<br>
+    Body:
     <div style="border-style:solid; border-color: black; border-width:1px;">
       <ngx-codemirror [(ngModel)]="body_dat" [options]="body_type">
       </ngx-codemirror>
     </div>
-  <mat-slide-toggle [(ngModel)]="isCORS">Favourite</mat-slide-toggle>
   <br>
   <div class="row">
+    <div class="col">
+      <mat-slide-toggle [(ngModel)]="isCORS">Send from Our Server</mat-slide-toggle>
+    </div>
     <div class="col right">
       <button class="green accent-4"  mat-raised-button color="primary" (click)="callReq(uri.value)">
         Request <mat-icon>send</mat-icon>

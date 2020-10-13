@@ -95,6 +95,7 @@ export class AppComponent{
     console.log(data)
     this.res = "";
     this.res_beautified = "";
+    this.header_beautified = "";
     var type = this.reqType; 
     console.log(uri, type, data, this.isCORS);
     var headers  = {};
@@ -117,10 +118,11 @@ export class AppComponent{
       this.apiService.getReq(uri, headers).subscribe( (data) => {
         var dat_type = data.headers.get('Content-type').split(";")[0] || "text/plain"
         dat_type = dat_type.toLowerCase();
+        var scode = data.status + " " + data.statusText;
         if(dat_type == "application/json")
-          this.display(JSON.stringify(data.body),dat_type, this.getHeadOBJ(data.headers));
+          this.display(JSON.stringify(data.body),dat_type, this.getHeadOBJ(data.headers, scode));
         else
-          this.display(data.body.toString(), dat_type, this.getHeadOBJ(data.headers))
+          this.display(data.body.toString(), dat_type, this.getHeadOBJ(data.headers, scode))
        },
        err =>{
         console.log(err)
@@ -131,10 +133,11 @@ export class AppComponent{
       this.apiService.postReq(uri, data, headers ).subscribe((data) => {
         var dat_type = data.headers.get('content-type').split(";")[0] || "text/plain"
         dat_type = dat_type.toLowerCase();
+        var scode = data.status + " " + data.statusText;
         if(dat_type == "application/json")
-          this.display(JSON.stringify(data.body),dat_type, this.getHeadOBJ(data.headers));
+          this.display(JSON.stringify(data.body),dat_type, this.getHeadOBJ(data.headers, scode));
         else
-          this.display(data.body.toString(), dat_type, this.getHeadOBJ(data.headers))
+          this.display(data.body.toString(), dat_type, this.getHeadOBJ(data.headers, scode))
        },
        err =>{
         console.log(err)
@@ -153,14 +156,15 @@ export class AppComponent{
     else{
       this.res_beautified = data;
     }
-    this.header_beautified = JSON.stringify(headers, null, 4);
+    this.header_beautified = `${JSON.stringify(headers, null, 4)}`;
   }
-  getHeadOBJ(headers){
+  getHeadOBJ(headers, status){
     var all_header = headers.keys()
     var tmp = {}
     for(var k in all_header){
       tmp[all_header[k]] = headers.get(all_header[k])
     }
+    tmp['Status'] = status;
     return tmp
   }
   deleteHeader(id:number){
