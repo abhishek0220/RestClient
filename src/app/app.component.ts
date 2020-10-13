@@ -11,6 +11,14 @@ import {map, startWith} from 'rxjs/operators';
 export class AppComponent{
   title = 'RestClient';
   res:any;
+  res_beautified : any;
+  res_type ={
+    lineNumbers: true,
+    theme: 'material',
+    mode: 'plain',
+    lineWrapping : true,
+    smartIndent : true
+  };
   header:any = [['Content-Type','application/json']];
   //headerName : string;
   reqType = "GET";
@@ -59,28 +67,65 @@ export class AppComponent{
   }
   async callReq(uri, data){
     this.res = "";
+    this.res_beautified = "";
     var type = this.reqType; 
     console.log(uri, type, data, this.isCORS);
     var headers  = {};
     for(var i=0; i<this.header.length; i++){
       headers[this.header[i][0]] = this.header[i][1];
     }
-    console.log(headers);
     if(this.isCORS){
       this.apiService.coverAPI(uri,type, data, headers).subscribe((data) =>{
-        this.res = atob(data['body'])
+        var type = "plain";
+        for(var eachheader in data['headers']){
+          if(eachheader.toUpperCase() == "CONTENT-TYPE"){
+            type = data['headers'][eachheader].split(";")[0]
+            break;
+          }
+        }
+        this.display(atob(data['body']), type.toLowerCase())
       })
     }
     else if(type == "GET"){
       this.apiService.getReq(uri, headers).subscribe( (data) => {
-        this.res = JSON.stringify(data.body);
+        var dat_type = data.headers.get('content-type').split(";")[0] || "text/plain"
+        dat_type = dat_type.toLowerCase();
+        if(dat_type == "application/json")
+          this.display(JSON.stringify(data.body),dat_type);
+        else
+          this.display(data.body.toString(), dat_type)
+       },
+       err =>{
+        console.log(err)
+        this.res = err.error;
        })  
     }
     else if(type=="POST"){
       this.apiService.postReq(uri, data, headers ).subscribe((data) => {
-        this.res = JSON.stringify(data) ;
-       })  
+        var dat_type = data.headers.get('content-type').split(";")[0] || "text/plain"
+        dat_type = dat_type.toLowerCase();
+        if(dat_type == "application/json")
+          this.display(JSON.stringify(data.body),dat_type);
+        else
+          this.display(data.body.toString(), dat_type)
+       },
+       err =>{
+        console.log(err)
+        this.res = err.error;
+      })  
     } 
+  }
+  display(data : string, dat_type : string){
+    this.res = data;
+    this.res_type.mode = dat_type;
+    console.log(dat_type)
+    if(dat_type == "application/json"){
+      var tmp = JSON.parse(data)
+      this.res_beautified = JSON.stringify(tmp, null, 4);
+    }
+    else{
+      this.res_beautified = data;
+    }
   }
   deleteHeader(id:number){
     this.header.splice(id,1);

@@ -9,6 +9,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    CodemirrorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

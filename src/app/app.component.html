@@ -53,7 +53,12 @@
   <button (click)="callReq(uri.value, data.value)">Request</button>
   <hr>
   Responses:
-  <div style="height:200px; overflow: auto; border-style: double ;border-color: black;">
-    <p>{{res}}</p>
+  <div>
+    <textarea style="height: 200px;border-style: double ;border-color: black;" readonly [(ngModel)]="res"></textarea>
   </div>
+
+  <ngx-codemirror
+  [(ngModel)]="res_beautified"
+  [options]="res_type"
+></ngx-codemirror>
 </div>

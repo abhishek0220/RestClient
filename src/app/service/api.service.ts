@@ -14,6 +14,7 @@ export class ApiService {
   getReq(uri:string, header) {
     return this.http.get(`${uri}`, {headers : header, observe: 'response'});
   }
+  
   postReq(uri, data, header) {
     return this.http.post(uri, data, {headers : header, observe: 'response'});
   }
@@ -25,7 +26,6 @@ export class ApiService {
       'header': header,
       'body' : btoa(data)
     }
-    console.log(body)
     return this.http.post(this.coverAPI_uri, body, {headers : {'Content-Type' : 'application/json'}})
   }
 }
