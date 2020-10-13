@@ -1,38 +1,48 @@
-<div class="container">
+<mat-toolbar color="primary" class="z-depth-1">
+  <span style="margin-left: 30px;" class="hover-cursor">Rest Client</span>
+  <span class="example-spacer"></span>
+</mat-toolbar>
+<div class="container" style="padding-top: 20px;">
   <form action="">
-    <input type="text" value="https://todo.iamabhishek.co/api/todo" placeholder="http://www.sample.com" style="width:100%" #uri>
-    <mat-select [(value)]=reqType>
-      <mat-option value="GET">GET</mat-option>
-      <mat-option value="POST">POST</mat-option>
-      <mat-option value="DELETE">DELETE</mat-option>
-    </mat-select>
-      <div class="row">
-        <div class="col s5">
-          <input type="text" value="" placeholder="Attribute Name" matInput
-            [formControl]="headerName"
-            [matAutocomplete]="autoheaderName"
-          >
-          <mat-autocomplete #autoheaderName="matAutocomplete">
-            <mat-option *ngFor="let option of headerNamefilteredOptions | async" [value]="option">
-              {{option}}
-            </mat-option>
-          </mat-autocomplete>
-        </div>
-        <div class="col s5">
-          <input type="text" value="" placeholder="Attribute Value" matInput
-            [formControl]="headerValue"
-            [matAutocomplete]="autoheaderValue"
-          >
-          <mat-autocomplete #autoheaderValue="matAutocomplete">
-            <mat-option *ngFor="let option of headerValuefilteredOptions | async" [value]="option">
-              {{option}}
-            </mat-option>
-          </mat-autocomplete>
-        </div>
+    <div class="row">
+      <mat-form-field appearance="fill" class="col s4 m3">
+        <mat-label>Method</mat-label>
+        <mat-select color="accent" [(value)]=reqType>
+          <mat-option value="GET">GET</mat-option>
+          <mat-option value="POST">POST</mat-option>
+          <mat-option value="DELETE">DELETE</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="col s8 m9">
+        <mat-label>URL</mat-label>
+        <input matInput value="https://todo.iamabhishek.co/api/todo" placeholder="http://www.google.com" #uri>
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <mat-form-field appearance="legacy" class="col s5">
+        <mat-label>Header Name</mat-label>
+        <input value="" placeholder="Attribute Name" matInput [formControl]="headerName" [matAutocomplete]="autoheaderName">
+        <mat-autocomplete #autoheaderName="matAutocomplete">
+          <mat-option *ngFor="let option of headerNamefilteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field appearance="legacy" class="col s5">
+        <mat-label>Header Value</mat-label>
+        <input value="" placeholder="Attribute Value" matInput [formControl]="headerValue" [matAutocomplete]="autoheaderValue">
+        <mat-autocomplete #autoheaderValue="matAutocomplete">
+          <mat-option *ngFor="let option of headerValuefilteredOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <div class="col s2">
+        <button class="right" mat-raised-button color="primary" (click)="addHeader();" style="min-width: unset!important; width: 100%; padding: 0px; max-width: 50px;">
+          <mat-icon>add</mat-icon>
+        </button>
       </div>
-      
-    
-    <button (click)="addHeader();" >Add Header</button>
+    </div>
     <div class="row" *ngFor="let singleHeader of header; index as i" style="margin-bottom:1px;">
       <div class="col s5 header">
         {{singleHeader[0]}}

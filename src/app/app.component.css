@@ -1,5 +1,9 @@
+
 .header{
     border-style: double;
+}
+.example-spacer {
+  flex: 1 1 auto;
 }
 mat-form-field input {
     border: none;
@@ -11,3 +15,4 @@ mat-form-field input:focus {
     box-shadow: none;
     height: initial !important;
   }
+

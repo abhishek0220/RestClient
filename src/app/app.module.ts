@@ -8,6 +8,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material/select';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material/input';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButton, MatButtonModule} from '@angular/material/button';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
@@ -26,7 +29,10 @@ import { CodemirrorModule } from '@ctrl/ngx-codemirror';
     ReactiveFormsModule,
     MatInputModule,
     MatSlideToggleModule,
-    CodemirrorModule
+    CodemirrorModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
