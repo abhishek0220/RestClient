@@ -3,7 +3,6 @@
   <span class="example-spacer"></span>
 </mat-toolbar>
 <div class="container" style="padding-top: 20px;">
-  <form action="">
     <div class="row">
       <mat-form-field appearance="fill" class="col s4 m3">
         <mat-label>Method</mat-label>
@@ -49,17 +48,20 @@
         <mat-icon class="right hover-cursor" (click)="deleteHeader(i)">delete</mat-icon>
       </mat-card>
     </div>
-      
     Body:<br>
-    <div style="border-style:solid; border-color: black;">
+    <div style="border-style:solid; border-color: black; border-width:1px;">
       <ngx-codemirror [(ngModel)]="body_dat" [options]="body_type">
       </ngx-codemirror>
     </div>
-  </form>
   <mat-slide-toggle [(ngModel)]="isCORS">Favourite</mat-slide-toggle>
   <br>
-  <button (click)="callReq(uri.value)">Request</button>
-  <hr>
+  <div class="row">
+    <div class="col right">
+      <button class="green accent-4"  mat-raised-button color="primary" (click)="callReq(uri.value)">
+        Request <mat-icon>send</mat-icon>
+      </button>
+    </div>
+  </div>
   <div style="min-height: 400px;">
     <mat-tab-group>
       <mat-tab label="Headers">
@@ -67,11 +69,11 @@
           <div style="margin:20px; border-style: solid ;border-color: black; border-width: 1px;">
             <ngx-codemirror [(ngModel)]="header_beautified" 
             [options]="{
-              theme: 'duotone-light',
+              theme: 'material',
               mode: 'application/json',
               lineWrapping : true,
               smartIndent : true,
-              readonly : true
+              readOnly : true
             }"
             >
             </ngx-codemirror>

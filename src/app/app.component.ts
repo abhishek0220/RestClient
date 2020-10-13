@@ -12,13 +12,14 @@ export class AppComponent{
   title = 'RestClient';
   res:any;
   res_beautified : any;
+  header_beautified : any;
   res_type ={
     lineNumbers: true,
     theme: 'material',
     mode: 'application/json',
     lineWrapping : true,
     smartIndent : true,
-    readonly : true
+    readOnly : true
   };
   body_type ={
     lineNumbers: true,
@@ -109,17 +110,17 @@ export class AppComponent{
             break;
           }
         }
-        this.display(atob(data['body']), type.toLowerCase())
+        this.display(atob(data['body']), type.toLowerCase(), data['headers'])
       })
     }
     else if(type == "GET"){
       this.apiService.getReq(uri, headers).subscribe( (data) => {
-        var dat_type = data.headers.get('content-type').split(";")[0] || "text/plain"
+        var dat_type = data.headers.get('Content-type').split(";")[0] || "text/plain"
         dat_type = dat_type.toLowerCase();
         if(dat_type == "application/json")
-          this.display(JSON.stringify(data.body),dat_type);
+          this.display(JSON.stringify(data.body),dat_type, this.getHeadOBJ(data.headers));
         else
-          this.display(data.body.toString(), dat_type)
+          this.display(data.body.toString(), dat_type, this.getHeadOBJ(data.headers))
        },
        err =>{
         console.log(err)
@@ -131,9 +132,9 @@ export class AppComponent{
         var dat_type = data.headers.get('content-type').split(";")[0] || "text/plain"
         dat_type = dat_type.toLowerCase();
         if(dat_type == "application/json")
-          this.display(JSON.stringify(data.body),dat_type);
+          this.display(JSON.stringify(data.body),dat_type, this.getHeadOBJ(data.headers));
         else
-          this.display(data.body.toString(), dat_type)
+          this.display(data.body.toString(), dat_type, this.getHeadOBJ(data.headers))
        },
        err =>{
         console.log(err)
@@ -141,10 +142,10 @@ export class AppComponent{
       })  
     } 
   }
-  display(data : string, dat_type : string){
+  display(data : string, dat_type : string, headers){
     this.res = data;
     this.res_type.mode = dat_type;
-    console.log(dat_type)
+    console.log(headers)
     if(dat_type == "application/json"){
       var tmp = JSON.parse(data)
       this.res_beautified = JSON.stringify(tmp, null, 4);
@@ -152,14 +153,23 @@ export class AppComponent{
     else{
       this.res_beautified = data;
     }
+    this.header_beautified = JSON.stringify(headers, null, 4);
+  }
+  getHeadOBJ(headers){
+    var all_header = headers.keys()
+    var tmp = {}
+    for(var k in all_header){
+      tmp[all_header[k]] = headers.get(all_header[k])
+    }
+    return tmp
   }
   deleteHeader(id:number){
     this.header.splice(id,1);
     console.log("deleted")
   }
   addHeader(){
-    var name = this.headerName.value;
-    var value = this.headerValue.value;
+    var name = this.headerName.value || "";
+    var value = this.headerValue.value|| "";
     if(name.length * value.length == 0) return;
     this.header.push([name,value]);
     console.log("added")
