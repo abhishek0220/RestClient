@@ -15,7 +15,15 @@ export class AppComponent{
   res_type ={
     lineNumbers: true,
     theme: 'material',
-    mode: 'plain',
+    mode: 'application/json',
+    lineWrapping : true,
+    smartIndent : true,
+    readonly : true
+  };
+  body_type ={
+    lineNumbers: true,
+    theme: 'duotone-light',
+    mode: 'application/json',
     lineWrapping : true,
     smartIndent : true
   };
@@ -23,6 +31,7 @@ export class AppComponent{
   //headerName : string;
   reqType = "GET";
   isCORS = false;
+  body_dat : any;
 
   headerName = new FormControl();
   headerNameOptions: string[] = [];
@@ -65,7 +74,9 @@ export class AppComponent{
     const filterValue = value.toLowerCase();
     return arr.filter(option => option.toLowerCase().includes(filterValue));
   }
-  async callReq(uri, data){
+  async callReq(uri){
+    var data = this.body_dat
+    console.log(data)
     this.res = "";
     this.res_beautified = "";
     var type = this.reqType; 

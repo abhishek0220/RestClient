@@ -43,32 +43,55 @@
         </button>
       </div>
     </div>
-    <div class="row" *ngFor="let singleHeader of header; index as i" style="margin-bottom:1px;">
-      <div class="col s5 header">
-        {{singleHeader[0]}}
-      </div>
-      <div class="col s5 header">
-        {{singleHeader[1]}}
-      </div>
-      <div class="col s2">
-        <button (click)="deleteHeader(i)" >Remove</button>
-      </div>
+    <div class="row" style="margin-bottom:1px;">
+      <mat-card class="col" style="margin-right: 10px;" *ngFor="let singleHeader of header; index as i">
+        {{singleHeader[0]}} : {{singleHeader[1]}}
+        <mat-icon class="right hover-cursor" (click)="deleteHeader(i)">delete</mat-icon>
+      </mat-card>
     </div>
       
     Body:<br>
-    <textarea style="width: 100%; height: 100px; overflow: auto;" #data></textarea>
+    <div style="border-style:solid; border-color: black;">
+      <ngx-codemirror [(ngModel)]="body_dat" [options]="body_type">
+      </ngx-codemirror>
+    </div>
   </form>
   <mat-slide-toggle [(ngModel)]="isCORS">Favourite</mat-slide-toggle>
   <br>
-  <button (click)="callReq(uri.value, data.value)">Request</button>
+  <button (click)="callReq(uri.value)">Request</button>
   <hr>
-  Responses:
-  <div>
-    <textarea style="height: 200px;border-style: double ;border-color: black;" readonly [(ngModel)]="res"></textarea>
+  <div style="min-height: 400px;">
+    <mat-tab-group>
+      <mat-tab label="Headers">
+        <ng-template matTabContent>
+          <div style="margin:20px; border-style: solid ;border-color: black; border-width: 1px;">
+            <ngx-codemirror [(ngModel)]="header_beautified" 
+            [options]="{
+              theme: 'duotone-light',
+              mode: 'application/json',
+              lineWrapping : true,
+              smartIndent : true,
+              readonly : true
+            }"
+            >
+            </ngx-codemirror>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Response">
+        <ng-template matTabContent>
+          <div class="white" style="margin:20px">
+            <textarea style="height: 300px;border-style: double ;border-color: black;" readonly [(ngModel)]="res"></textarea>
+          </div>
+        </ng-template>
+      </mat-tab>
+      <mat-tab label="Beautify">
+        <ng-template matTabContent>
+          <ngx-codemirror [(ngModel)]="res_beautified" [options]="res_type" style="margin:20px">
+          </ngx-codemirror>
+        </ng-template>
+          
+      </mat-tab>
+    </mat-tab-group>
   </div>
-
-  <ngx-codemirror
-  [(ngModel)]="res_beautified"
-  [options]="res_type"
-></ngx-codemirror>
 </div>
