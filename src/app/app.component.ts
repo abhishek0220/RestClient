@@ -33,8 +33,23 @@ export class AppComponent{
   headerValuefilteredOptions: Observable<string[]>;
 
   headerVals = {
-    'Content-Type' : ['application/x-www-form-urlencoded', 'application/json', 'application/javascript', 'application/xml'],
-    'Accept' : ['application/json', 'application/xml']
+    'Content-Type' : ['application/x-www-form-urlencoded', 'application/json', 'application/javascript', 'application/xml',
+                    'text/html','text/plain','text/json'],
+    'Accept' : ['application/json', 'application/xml'],
+    'Accept-Language' : ['fr','de-DE','en-US','en-CA'],
+    'Access-Control-Request-Method': ['GET','DELETE','PUT','POST'],
+    'Access-Control-Request-Headers': ['Content-Length','Content-Type'],
+    'Accept-Encoding': ['gzip','deflate','compress','br','indentity','*'],
+    'Allow': ['GET','DELETE','PUT','POST'],
+    'Authorization':[],
+    'Cache-Control' : ['no-cache'],
+    'Clear-Site-Data': ['"storage"','"cookies"','"cache"','"executionContexts"','"*"'],
+    'Cookie': [],
+    'Connection' : ['keep-alive', 'close'],
+    'From': [],
+    'If-Match': ['*'],
+    'Save-Data':['On'],
+    'Transfer-Encoding':['chunked','gzip','deflate','compress','indentity']
   }
 
   constructor(private apiService: ApiService) {}
