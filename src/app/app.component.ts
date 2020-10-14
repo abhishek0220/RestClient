@@ -11,6 +11,7 @@ import {map, startWith} from 'rxjs/operators';
 export class AppComponent{
   title = 'RestClient';
   res:any;
+  image:any;
   res_beautified : any;
   header_beautified : any;
   res_type ={
@@ -34,6 +35,8 @@ export class AppComponent{
   isCORS = false;
   body_dat : any;
   keep_run = false;
+  isImage = false;
+  imageLoading: boolean;
 
   headerName = new FormControl();
   headerNameOptions: string[] = [];
@@ -104,6 +107,16 @@ export class AppComponent{
       headers[this.header[i][0]] = this.header[i][1];
     }
     this.keep_run = true;
+    if(this.isImage){
+      this.imageloading=true;
+      this.apiService.getImage(uri,headers).subscribe(data => {
+        this.convertimageblob(data);
+        this.imageLoading = false;
+      }, error => {
+        this.imageLoading = false;
+        console.log(error);
+      });
+    }
     if(this.isCORS){
       this.apiService.coverAPI(uri,type, data, headers).subscribe((data) =>{
         var type = "plain";
@@ -192,6 +205,19 @@ export class AppComponent{
     }
     
   }
+  
+  convertimageblob(image1: Blob) {
+   let reader = new FileReader();
+   reader.addEventListener("load", () => {
+      this.image = reader.result;
+   }, false);
+
+   if (image1) {
+      reader.readAsDataURL(image);
+   }
+  }
+  
+  
   display(data : string, dat_type : string, headers){
     this.res = data;
     this.res_type.mode = dat_type;
