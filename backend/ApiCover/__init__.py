@@ -36,7 +36,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         headers_got = dict(map(lambda y:(y,x.headers[y]),x.headers))
         resp = {
             "body" : body_got,
-            "status_code": x.status_code,
+            "status_code": f"{x.status_code} {x.reason}",
             "headers": headers_got
         }
         return func.HttpResponse(json.dumps(resp), mimetype="application/json")

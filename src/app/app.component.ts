@@ -113,6 +113,8 @@ export class AppComponent{
             break;
           }
         }
+        data['headers']['Status Code'] = data['status_code'];
+        delete data['headers'].status;
         this.display(atob(data['body']), type.toLowerCase(), data['headers'])
       },
        err =>{
