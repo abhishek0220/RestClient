@@ -11,6 +11,11 @@ export class ApiService {
   coverAPI_uri : string = "https://iamabhishek.azurewebsites.net/api/ApiCover";
 
   constructor(private http: HttpClient) { }
+
+  getImage(iurl: string, header) : Observable<Blob>{
+    return this.http.get(iurl, { responseType: 'blob' , headers: header});
+  }
+
   getReq(uri:string, header) {
     return this.http.get(`${uri}`, {headers : header, observe: 'response'});
   }
