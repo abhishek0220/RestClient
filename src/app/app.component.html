@@ -62,6 +62,9 @@
     <div class="col">
       <mat-slide-toggle [(ngModel)]="isCORS">Send from Our Server</mat-slide-toggle>
     </div>
+    <div class="col">
+      <mat-slide-toggle [(ngModel)]="isImage">Want to fetch Image?</mat-slide-toggle>
+    </div>
     <div class="col right">
       <button class="green accent-4"  mat-raised-button color="primary" (click)="callReq(uri.value)">
         Request <mat-icon>send</mat-icon>
@@ -100,6 +103,12 @@
           </ngx-codemirror>
         </ng-template>
       </mat-tab>
+      <mat-tab label="Image">
+        <img [src]="image" alt="Place image title" *ngIf="!imageLoading; else noImageFound" matTabContent>
+        <ng-template matTabContent #noImageFound>
+            <img src="fallbackImage.png" alt="Fallbackimage">
+        </ng-template>  
+       </mat-tab>
     </mat-tab-group>
   </div>
 </div>
